@@ -38,15 +38,23 @@ Commit your code regularly and use descriptive messages. This helps both you (in
 
 Demonstrate your understanding of this Sprint's concepts by answering the following free-form questions. Edit this document to include your answers after each question. Make sure to leave a blank line above and below your answer so it is clear and easy to read by your Team Lead.
 
-- [ ] Mention two parts of Express that you learned about this week.
+- [x] Mention two parts of Express that you learned about this week.
+-- I learned about Routing methods that handle requests via HTTP methods. Routing is essentially
+how endpoints respond to client requests. 
 
-- [ ] Describe Middleware?
+-- I also learned about Express Middleware modules. Middleware modules are essentially functions that sit in the middle of raw requests and the intended route. 
 
-- [ ] Describe a Resource?
+- [x] Describe Middleware?
+-- Middleware is a function that sits between raw, incoming requests from the client and the intended endpoint. It processes those requests via route handlers. 
 
-- [ ] What can the API return to help clients know if a request was successful?
+- [x] Describe a Resource?
+-- A resource is any object that can be named. For example, a route handler for response, might send back informaiton on a particular resource such as `name`,  `age`, `id`. 
 
-- [ ] How can we partition our application into sub-applications?
+- [x] What can the API return to help clients know if a request was successful?
+-- It is common to return a response with a status code of `200` on successful API requests.
+
+- [x] How can we partition our application into sub-applications?
+-- One specific way is to use express-generator directly. This creates an application skeleton with a partitioned layout that seperates resources from routes and views. 
 
 ## Minimum Viable Product
 
