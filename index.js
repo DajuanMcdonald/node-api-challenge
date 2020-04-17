@@ -12,4 +12,12 @@ I need this code, but don't know where, perhaps should make some middleware, don
 
 Go code!
 */
+const express = require('express');
+const port = process.env.PORT || 8080;
+const server = express();
 
+
+
+server.listen(port, () => {
+    console.log(`Server is up and running on port ${port}`)
+})
