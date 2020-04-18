@@ -16,7 +16,9 @@ const express = require('express');
 const port = process.env.PORT || 8080;
 const server = express();
 
+server.get('/', (req, res) => res.status(200).json({message: "Server is up and running..."}))
 
+server.use((req,res) => res.status(404).json({ message: "Route unavailable"}))
 
 server.listen(port, () => {
     console.log(`Server is up and running on port ${port}`)
