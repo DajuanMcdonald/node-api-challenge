@@ -37,3 +37,28 @@ route.get('/:id/actions', validateProjectID, async (req, res, next) => {
         next(err);
     }
 })
+
+//handle posting of projects
+router.post('/', validateProject, async (req, res, next) => {
+    try {
+        const results = await projectDB.insert(req.project);
+        if(results.id && results.description) res.status(201).json(results)
+
+    }
+    catch(err) {
+        next(err);
+    }
+})
+
+//handle updating projects
+router.patch('/:id', validateProjectID, validateProject, async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const updateProject = {...req.project}
+        const results = await projectDB.update(id, updateProject);
+        if(results.id) res.status(200).json(results);
+    }
+    catch(err) {
+        next(err);
+    }
+})
