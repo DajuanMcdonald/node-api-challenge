@@ -5,7 +5,7 @@ const actionRouters = require('./actionsRoute')
 
 router.use('/:id/actions', actionRouters);
 
-//get array of projects
+//get route handler for array of projects
 router.get('/', async (req, res, next) => {
     try {
         const projects = await projectDB.get();
@@ -15,3 +15,14 @@ router.get('/', async (req, res, next) => {
         next(err);
     }
 })
+
+//add get route handler for projects by Id
+router.get('/:id', validateProjectID, (req, res, next) => {
+    try {
+        res.status(200).json(req.project);
+    } 
+    catch(err) {
+        next(err);
+    }
+})
+
