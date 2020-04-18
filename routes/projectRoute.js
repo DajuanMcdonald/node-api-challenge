@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const projectDB = require('../data/helpers/projectModel');
-const actionRouters = require('./actionsRoute')
+const actionRouters = require('./actionsRoute');
+const { route } = require('./actionsRoute');
 
 router.use('/:id/actions', actionRouters);
 
@@ -26,3 +27,13 @@ router.get('/:id', validateProjectID, (req, res, next) => {
     }
 })
 
+//add get route handler for project with actions? yes.. actions
+route.get('/:id/actions', validateProjectID, async (req, res, next) => {
+    try {
+        const projectWithActions = await projectDB.getProjectActions(req.params.id);
+        if(projectWithActions.id) res.status(200).json(projectWithActions);
+    }
+    catch(err) {
+        next(err);
+    }
+})
