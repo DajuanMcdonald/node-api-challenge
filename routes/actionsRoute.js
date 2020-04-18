@@ -35,3 +35,21 @@ router.post('/', validateActions, async (req, res, next) => {
         next(err);
     }
 })
+
+
+//handle updates
+router.patch('/:actionId', validateActionID, validateActions, async (req, res, next) => {
+    try {
+        payload = {
+            project_id: req.params.id,
+            notes: req.body.notes,
+            description: req.body.description,
+            completed: req.body.completed,
+        }
+        const results = await actionDB.update(req.params.actionId, payload);
+        if(results.id) res.status(200).json(results)
+    }
+    catch (err) {
+        next(err);
+    }
+})
