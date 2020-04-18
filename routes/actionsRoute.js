@@ -53,3 +53,53 @@ router.patch('/:actionId', validateActionID, validateActions, async (req, res, n
         next(err);
     }
 })
+
+//handle deleting
+router.delete('/:actionId', validateActionID, async (req, res, next) => {
+    try {
+        const results = await actionDB.remove(req.params.actionId);
+        if(results) res.status(204).end();
+    }
+    catch(err) {
+        next(err)
+    }
+
+})
+
+//custom middleware
+function validateActionID(req, res, next) {
+    const id = req.params.actionId;
+    actionDB.get(id)
+    .then( (action) => {
+        if(action) {
+            req.action = action;
+            next();
+        } else {
+            res.status(404).json({message: `There are no actions with the ID ${id}`})
+        }
+    })
+    .catch( err => {
+        next(err);
+    })
+}
+
+function validateActions(req, res, next) {
+    const {notes, description, completed} = req.body;
+    if(!req.body) {
+        res.status(400).json({message: "missing project data"});
+    }
+
+    if(!notes) {
+        res.status(400).json({messge: "missing project notes"});
+    }
+
+    if(!description) {
+        res.status(400).json({message: "missing project description"});
+    }
+
+    req.action = { project_id: req.params.id, description, notes, completed}
+    next();
+}
+
+//dont forget to export
+module.exports = router;
