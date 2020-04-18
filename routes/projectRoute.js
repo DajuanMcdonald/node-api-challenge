@@ -62,3 +62,56 @@ router.patch('/:id', validateProjectID, validateProject, async (req, res, next) 
         next(err);
     }
 })
+
+//handle deleting a project
+router.delete('/:id', validateProject, async (req, res, next) => {
+    try {
+        const results = await projectDB.remove(req.params.id);
+        if(results) res.status(204).end();
+    }
+    catch(err) {
+        next(err);
+    }
+})
+
+//custom middleware
+function validateProjectID(req, res, next) {
+    const id = req.params.id;
+    projectDB.get(id)
+    .then( project => {
+        if(project) { 
+            req.project = project;
+            next();
+        } else {
+            res.status(404).json({message: `There are no projects that match the ID ${id}`})
+        }
+    })
+    .catch(err => next(err))
+}
+
+function validateProject(req, res, next) {
+    const {name, description, completed} = req.body;
+    if(!req.body) {
+        
+        res.status(400).json({message: "missing project body"})
+    } 
+
+    if(!name) {
+        res.status(400).json({message: "missing project name"})
+    }
+
+    if(!res.description) {
+        res.status(400).json({message: "missing project description"})
+    }
+
+    req.project = {
+        name: req.body.name,
+        description: req.body.description,
+        completed: req.body.completed
+    }
+
+    next();
+}
+
+//dont forget to export
+module.exports = router;
